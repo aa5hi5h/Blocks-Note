@@ -20,12 +20,12 @@ const Navbar = () => {
                 <div className="pr-8">
                     <ul className="flex space-x-2 items-center">
                         <li>
-                            <Button onClick={() => router.push("p/create")} className="flex items-center bg-blue-500 hover:bg-blue-600 space-x-1 ">
+                            <Button onClick={() => router.push("/p/create")} className="flex items-center bg-blue-500 hover:bg-blue-600 space-x-1 ">
                                 <NotebookText size={22}  />
                                 <div>Create</div>
                             </Button></li>
                             <li className="pr-4">
-                            <Button onClick={() => router.push("p/featured")} variant={"outline"} className="hidden md:flex space-x-1 text-black bg-slate-200 shadow-sm hover:bg-amber-400 hover:text-white transition">
+                            <Button onClick={() => router.push("/p/featured")} variant={"outline"} className="hidden md:flex space-x-1 text-black bg-slate-200 shadow-sm hover:bg-amber-400 hover:text-white transition">
                                 <Bomb size={22} />
                                 <h1>Featured Post</h1>
                             </Button>

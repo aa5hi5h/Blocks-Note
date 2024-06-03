@@ -29,14 +29,13 @@ const page = async({params}:{params:{id:string}}) => {
 
         }
     })
-
     
 
     return (
-        <div className="max-w-[680px] p-3 mx-auto h-full ">
+        <div className=" max-w-[635px] p-3 mx-auto h-full ">
             <div className=" p-2 h-fit w-full flex  ">
                 <PostMenu />
-               <div className="flex max-w-3xl mx-auto p-6 rounded-md bg-white flex-col space-y-4">
+               <div className="flex max-w-7xl mx-auto p-6 rounded-md bg-white flex-col space-y-4">
                 <h1 className="text-5xl font-bold pb-8">{post.title}</h1>
                 <div className="">
                 {
@@ -50,7 +49,7 @@ const page = async({params}:{params:{id:string}}) => {
                 }
                 </div>
                 <h2 className="text-xl font-normal p-4 pt-8">{post.description}</h2>
-                <CommentsFeed postId={post.id} />
+                <CommentsFeed postId={post.id} comments={comments} />
                </div>
             </div>
         </div>

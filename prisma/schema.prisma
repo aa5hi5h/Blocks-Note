@@ -30,7 +30,7 @@ model Comment {
     userId String
     replyto Comment? @relation("Replyto",references: [id],fields: [replytoId],onDelete:NoAction,onUpdate: NoAction)
     replies Comment[] @relation("Replyto")
-    replytoId String @db.ObjectId
+    replytoId String? @db.ObjectId
     likes CommentLike[]
 
     createdAt DateTime @default(now())
