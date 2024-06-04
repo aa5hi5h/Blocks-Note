@@ -6,7 +6,7 @@ export const PostDataValidators = z.object({
     .min(3,{message:"Title must be 3 characters long"})
     .max(256,{message:"Title must not exceed the word limit of 256 characters"}),
     description: z.string(),
-    image: z.string() || undefined,
+    image: z.string().optional(),
 })
 
 export type PostCreationPayload = z.infer<typeof PostDataValidators>

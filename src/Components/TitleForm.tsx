@@ -64,6 +64,7 @@ const CreatePostForm = () => {
         },
         onSuccess:(data) => {
             router.push("/")
+            router.refresh()
             return toast({
                 title:"Blog Uploaded"
             })

@@ -67,65 +67,6 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
     })
 
 
-    const {mutate:UpdateComment} = useMutation({
-        mutationFn: async({message,postId,commentId,replytoId}: CommentUpdatePayload) => {
-            const payload: CommentUpdatePayload = { 
-                message,
-                postId,
-                commentId,
-                replytoId
-              }
-
-              const {data} = await axios.patch("/api/post/comment",payload)
-              return data
-        },
-        onError: (error) => {
-            return toast({
-                variant:"destructive",
-                title:'Error',
-                description:"Cannot perform your action currently "
-            })
-        },
-        onSuccess: () => {
-         
-            toast({
-                variant:"default",
-                title:'Success',
-                description:'Comment edited'
-            })
-            return router.refresh()
-        }
-    })
-
-
-    const {mutate:DeleteComment} = useMutation({
-        mutationFn: async({commentId,postId,replytoId}:CommentDeletePayload) => {
-            const payload: CommentDeletePayload = {
-                commentId,
-                postId,
-                replytoId
-            }
-
-            const {data} = await axios.delete("/api/post/comment",{data:payload})
-            return data
-
-        },
-        onError: (error) => {
-            return toast({
-                variant:"destructive",
-                title:"Error",
-                description:'Cannot deleete at the moment'
-            })
-        },
-        onSuccess: () => {
-            router.refresh()
-            return toast({
-                variant:'default',
-                title:"Success",
-                })
-        }
-    })
-
 
 
     
