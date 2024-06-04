@@ -11,6 +11,7 @@ import { CommentPayloadCreation, CommentUpdatePayload } from "@/app/lib/validato
 import axios from "axios"
 import { toast } from "./ui/use-toast"
 import { CommentDeletePayload } from "@/app/lib/validators/Comment"
+import CommentAction from "./CommentAction"
 
 
 
@@ -146,7 +147,7 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
                                       } else{
                                         toggleReply()
                                       }  
-                                    }} className="flex p-2 cursor-pointer gap-x-1 items-center">
+                                    }} className="flex p-2 cursor-pointer gap-x-1 items-center mr-8">
                                     <MessageSquareReply size={20}/>
                                     Reply
                                     </div>
@@ -156,7 +157,8 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
                                         isReplying ? (
                                              <div className="flex flex-col flex-wrap gap-y-2  ">
                                             <TextareaAutosize
-                                            className="appearence-none resize-none p-3 border-[1px] border-gray-300 rounded-lg"
+                                            className="appearence-none w-[25rem] resize-none p-3 border-[1px] border-gray-300 rounded-lg"
+                                            minRows={3}
                                             placeholder="" 
                                             value={input}
                                             onChange={(e) => setInput(e.target.value)}/>
@@ -181,11 +183,7 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
                                 user ? (
                                     <div  className="ml-auto flex gap-x-4 ">
                                         {user.id === comment.userId && (
-                                            <div className="flex gap-x-4">
-                                                <Button onClick={() => UpdateComment({postId:comment.postId,message:input,commentId:comment.id,replytoId:comment.replytoId ?? comment.id})} variant={"outline"}>Edit</Button>
-                                    <Trash onClick={() => DeleteComment({postId:comment.postId,commentId:comment.id,replytoId:comment.replytoId ?? undefined})} color="red" 
-                                    className="mt-2 cursor-pointer" />
-                                            </div>
+                                           <CommentAction comment={comment} />
                                         )
                                          
                                         }
