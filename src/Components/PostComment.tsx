@@ -1,15 +1,19 @@
 "use client"
 import { useUser } from "@clerk/nextjs"
 import { Comment } from "@prisma/client"
-import { MessageSquareReply, ThumbsDown, ThumbsUp, UserRound } from "lucide-react"
+import { MessageSquareReply, Pencil, ThumbsDown, ThumbsUp, Trash, UserRound } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import  TextareaAutosize  from "react-textarea-autosize"
 import { Button } from "./ui/button"
 import { useMutation } from "@tanstack/react-query"
-import { CommentPayloadCreation } from "@/app/lib/validators/Comment"
+import { CommentPayloadCreation, CommentUpdatePayload } from "@/app/lib/validators/Comment"
 import axios from "axios"
 import { toast } from "./ui/use-toast"
+import { CommentDeletePayload } from "@/app/lib/validators/Comment"
+
+
+
 interface PostCommentsProp{
     comment: Comment
     postId: string
@@ -22,7 +26,7 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
     const[input,setInput] = useState<string>("")
 
 
-    const {isSignedIn} = useUser()
+    const {isSignedIn,user} = useUser()
 
     const toggleReply = () => setIsReplying((current) => !current)
 
@@ -30,13 +34,13 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
         mutationFn : async({
             message,
             postId,
-            replytoId
+            replytoId,
         }:CommentPayloadCreation) => {
 
             const payload: CommentPayloadCreation = {
                 message,
                 postId,
-                replytoId
+                replytoId,
             }
 
             const {data} = await axios.post("/api/post/comment",payload)
@@ -60,6 +64,69 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
             })
         }
     })
+
+
+    const {mutate:UpdateComment} = useMutation({
+        mutationFn: async({message,postId,commentId,replytoId}: CommentUpdatePayload) => {
+            const payload: CommentUpdatePayload = { 
+                message,
+                postId,
+                commentId,
+                replytoId
+              }
+
+              const {data} = await axios.patch("/api/post/comment",payload)
+              return data
+        },
+        onError: (error) => {
+            return toast({
+                variant:"destructive",
+                title:'Error',
+                description:"Cannot perform your action currently "
+            })
+        },
+        onSuccess: () => {
+         
+            toast({
+                variant:"default",
+                title:'Success',
+                description:'Comment edited'
+            })
+            return router.refresh()
+        }
+    })
+
+
+    const {mutate:DeleteComment} = useMutation({
+        mutationFn: async({commentId,postId,replytoId}:CommentDeletePayload) => {
+            const payload: CommentDeletePayload = {
+                commentId,
+                postId,
+                replytoId
+            }
+
+            const {data} = await axios.delete("/api/post/comment",{data:payload})
+            return data
+
+        },
+        onError: (error) => {
+            return toast({
+                variant:"destructive",
+                title:"Error",
+                description:'Cannot deleete at the moment'
+            })
+        },
+        onSuccess: () => {
+            router.refresh()
+            return toast({
+                variant:'default',
+                title:"Success",
+                })
+        }
+    })
+
+
+
     
 
     const router = useRouter()
@@ -110,6 +177,23 @@ const PostComments : React.FC<PostCommentsProp> = ({comment , postId ,replytoId}
                                     </div>
                                     </div>
                                 </div>
+                                {
+                                user ? (
+                                    <div  className="ml-auto flex gap-x-4 ">
+                                        {user.id === comment.userId && (
+                                            <div className="flex gap-x-4">
+                                                <Button onClick={() => UpdateComment({postId:comment.postId,message:input,commentId:comment.id,replytoId:comment.replytoId ?? comment.id})} variant={"outline"}>Edit</Button>
+                                    <Trash onClick={() => DeleteComment({postId:comment.postId,commentId:comment.id,replytoId:comment.replytoId ?? undefined})} color="red" 
+                                    className="mt-2 cursor-pointer" />
+                                            </div>
+                                        )
+                                         
+                                        }
+                                </div>
+                                    )
+                                  : (
+                                  null )
+                                } 
                                 </div>
                                 </div>
     )
