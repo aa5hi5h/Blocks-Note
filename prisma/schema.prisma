@@ -8,6 +8,12 @@ datasource db {
     url= env("DATABASE_URL")
 }
 
+
+enum VoteType {
+    UP
+    DOWN
+}
+
 model Post {
     id String @id @default(auto()) @map("_id") @db.ObjectId
     userId String
@@ -25,7 +31,7 @@ model Post {
 model Comment {
     id String @id @default(auto()) @map("_id") @db.ObjectId
     message String
-    post Post @relation(references: [id],fields: [postId],onDelete: Cascade )
+    post Post @relation(references: [id],fields: [postId],onDelete: Cascade)
     postId String @db.ObjectId
     userId String
     replyto Comment? @relation("Replyto",references: [id],fields: [replytoId],onDelete:NoAction,onUpdate: NoAction)
@@ -42,6 +48,7 @@ model CommentLike{
  userId String
  comment Comment @relation(fields: [commentId],references: [id],onDelete: Cascade)
  commentId String @db.ObjectId
+ type VoteType
  @@unique([userId,commentId])
 }
 
@@ -50,5 +57,6 @@ model PostVote {
     userId String
     post Post @relation(fields: [postId],references: [id] , onDelete: Cascade)
     postId String @db.ObjectId
+    type VoteType
     @@unique([userId,postId])
 }
