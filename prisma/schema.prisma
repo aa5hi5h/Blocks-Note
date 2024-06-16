@@ -23,6 +23,7 @@ model Post {
 
     comments Comment[]
     likes PostVote[]
+    saved Saved[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -58,5 +59,14 @@ model PostVote {
     post Post @relation(fields: [postId],references: [id] , onDelete: Cascade)
     postId String @db.ObjectId
     type VoteType
+    @@unique([userId,postId])
+}
+
+model Saved {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    saved Boolean @default(false)
+    userId String
+    post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+    postId String @db.ObjectId
     @@unique([userId,postId])
 }

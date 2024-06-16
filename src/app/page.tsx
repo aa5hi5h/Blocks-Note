@@ -9,6 +9,7 @@ export default async function Home() {
   const post = await db.post.findMany({
     include:{
       likes: true,
+      saved: true
     }
   })
 
@@ -33,7 +34,9 @@ export default async function Home() {
 
             const currentVote = items.likes.find((vote) => vote.userId === userId )
 
-            return ( <PostFeed  key={index} post={items} initialVoteAmt={votesAmount} currentVote={currentVote?.type} /> )
+            const isSaved = items.saved.find((saved) => saved.userId === userId)
+
+            return ( <PostFeed  key={index} post={items} initialVoteAmt={votesAmount} currentVote={currentVote?.type} isSaved={isSaved }  /> )
 })}
         </div>
       </div>

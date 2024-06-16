@@ -1,8 +1,8 @@
 "use client"
-import { Post, PostVote, VoteType } from "@prisma/client"
+import { Post, PostVote, Saved, VoteType } from "@prisma/client"
 import Image from "next/image"
 import Comments from "./Comments"
-import Saved from "./Saved"
+import SavedPost from "./Saved"
 import { useRouter } from "next/navigation"
 import PostVoteClient from "./PostVote"
 
@@ -11,13 +11,15 @@ type PartialVote = Pick< PostVote , "type">
 interface PostFeedProp{
     post: Post,
     initialVoteAmt: number
-    currentVote?: VoteType
+    currentVote?: VoteType,
+    isSaved?: Saved
 }
 
 const PostFeed: React.FC<PostFeedProp>= ({
     post,
     initialVoteAmt,
-    currentVote
+    currentVote,
+    isSaved
 }) => {
 
     const router = useRouter()
@@ -31,7 +33,7 @@ const PostFeed: React.FC<PostFeedProp>= ({
             <Comments postId={post.id} />
             <PostVoteClient postId={post.id} initialVote={currentVote} initialVoteAmt={initialVoteAmt}  />
             </div>
-            <Saved />
+            <SavedPost postId={post.id} initalVote={isSaved} />
             </div>
 
         </div>
