@@ -18,11 +18,13 @@ import { error } from "console"
 import { notFound, useRouter } from "next/navigation"
 import { Post } from "@prisma/client"
 import { useUser } from "@clerk/nextjs"
+import { UploadThingError } from "uploadthing/server"
 
 interface UpdateFormProp{
     post: Post
 }
 
+type Json = any
 
 const UpdatePostForm = ({post}:UpdateFormProp) => {
 
@@ -130,7 +132,7 @@ const UpdatePostForm = ({post}:UpdateFormProp) => {
                                 setImageUrl(res[0].url)
                             }}
                             {...field}
-                            onUploadError={(error: string) => {
+                            onUploadError={(error: UploadThingError<Json>) => {
                                 toast({
                                     variant:"destructive",
                                     title:"Error"
