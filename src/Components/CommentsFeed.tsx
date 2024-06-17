@@ -85,7 +85,7 @@ const CommentsFeed = ({postId,replytoId,comments}: CommentsProp) => {
                         .map((item,index) => {
 
                           return (  
-                            <div>
+                            <div key={index}>
                           <PostComments key={index} comment={item} postId={postId} replytoId={item.replytoId || undefined} />
                           {item.replies.map((reply) => {
                             return (

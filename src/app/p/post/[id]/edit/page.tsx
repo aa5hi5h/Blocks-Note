@@ -4,7 +4,7 @@ import { db } from "@/app/lib/db"
 import { notFound } from "next/navigation"
 
 
-const page = async({params}:{params:{id:string}}) => {
+const Page = async({params}:{params:{id:string}}) => {
 
     const {id} = params
 
@@ -28,4 +28,4 @@ const page = async({params}:{params:{id:string}}) => {
     )
 }
 
-export default page
+export default Page

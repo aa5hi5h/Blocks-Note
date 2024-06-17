@@ -6,7 +6,7 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 
 
-const page = async({params}:{params:{id:string}}) => {
+const Page = async({params}:{params:{id:string}}) => {
     const {id} = params
     const post = await db.post.findUnique({
         where:{
@@ -61,4 +61,4 @@ const page = async({params}:{params:{id:string}}) => {
     )
 }
 
-export default page
+export default Page
