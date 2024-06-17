@@ -5,6 +5,7 @@ import { Button } from "./ui/button"
 import { Bomb, BotMessageSquare, NotebookText } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { UserButton, useUser } from "@clerk/nextjs"
+import SearchBar from "./Searchbar"
 
 
 const Navbar = () => {
@@ -15,7 +16,7 @@ const Navbar = () => {
             <div className="flex w-full items-center space-x-4 border-b pb-4 border-slate-500">
                 <Link href={"/"} className="text-4xl font-semibold w-[240px] text-zinc-900">Blocks-Note</Link>
                 <div className="w-[560px] pr-2">
-                    <Input placeholder="Type here to search..." className="hidden  md:flex focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-200 focus:bg-white hover:bg-slate-300  "  />
+                    <SearchBar />
                 </div>
                 <div className="pr-8">
                     <ul className="flex space-x-2 items-center">
