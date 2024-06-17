@@ -16,8 +16,9 @@ import {useMutation} from "@tanstack/react-query"
 import axios from "axios"
 import { error } from "console"
 import { useRouter } from "next/navigation"
+import { UploadThingError } from "uploadthing/server"
 
-
+type json = any
 
 const CreatePostForm = () => {
 
@@ -119,7 +120,7 @@ const CreatePostForm = () => {
                                 setImageUrl(res[0].url)
                             }}
                             {...field}
-                            onUploadError={(error: string) => {
+                            onUploadError={(error: UploadThingError<json>) => {
                                 toast({
                                     variant:"destructive",
                                     title:"Error"
